@@ -1,0 +1,2 @@
+module BoxhouseHelper
+end
