@@ -1,0 +1,10 @@
+<div class="col-md-4 mb-4">
+  <div class="card h-100">
+    <div class="card-body bg-light">
+      <h4><%= boxhouse.name %></h4>
+      <p class="card-text"><%= boxhouse.description.truncate(120, omission: '...') %></p>
+      <%= link_to "View", boxhouse, class: "btn btn-sm btn-outline-primary float-end" %>
+    </div>
+  </div>
+</div>
+    

@@ -5,6 +5,10 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
+  has_many :boxhouses
+
+  validates :username, presence: true
+
   after_create :assign_default_role
 
   def assign_default_role

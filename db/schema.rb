@@ -10,7 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_07_085810) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_10_054351) do
+  create_table "bookings", force: :cascade do |t|
+    t.string "status"
+    t.integer "total_price"
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_bookings_on_user_id"
+  end
+
+  create_table "bookings_slots", id: false, force: :cascade do |t|
+    t.integer "booking_id", null: false
+    t.integer "slot_id", null: false
+    t.index ["booking_id", "slot_id"], name: "index_bookings_slots_on_booking_id_and_slot_id", unique: true
+    t.index ["slot_id", "booking_id"], name: "index_bookings_slots_on_slot_id_and_booking_id"
+  end
+
+  create_table "boxes", force: :cascade do |t|
+    t.string "name"
+    t.integer "boxhouse_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["boxhouse_id"], name: "index_boxes_on_boxhouse_id"
+  end
+
   create_table "boxhouses", force: :cascade do |t|
     t.string "name"
     t.integer "phone"
@@ -34,9 +58,21 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_085810) do
     t.index ["resource_type", "resource_id"], name: "index_roles_on_resource"
   end
 
+  create_table "slots", force: :cascade do |t|
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.integer "price"
+    t.string "status"
+    t.integer "box_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["box_id"], name: "index_slots_on_box_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
+    t.string "username"
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -54,5 +90,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_07_085810) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "bookings", "users"
+  add_foreign_key "boxes", "boxhouses"
   add_foreign_key "boxhouses", "users"
+  add_foreign_key "slots", "boxes"
 end

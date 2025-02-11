@@ -65,3 +65,8 @@ end
 gem "devise", "~> 4.9"
 
 gem "rolify"
+
+
+gem 'bootstrap', '~> 5.3.3'
+gem 'sassc-rails', '~> 2.1'
+gem 'jquery-rails'
