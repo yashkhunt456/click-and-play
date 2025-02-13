@@ -2,9 +2,20 @@
   <div>
     <%= form.label :name, "Name : " %>
     <%= form.text_field :name %>
-  </div>
+    <% box.errors.full_messages_for(:name).each do |message| %>
+        <div><%= message %></div>
+    <% end %>
+  </div><br>
 
   <div>
-    <%= form.submit "Create Box", class: "btn btn-sm btn-primary mt-2" %>
+    <%= form.label :description, "Description : " %>
+    <%= form.text_area :description %>
+    <% box.errors.full_messages_for(:description).each do |message| %>
+        <div><%= message %></div>
+    <% end %>
+  </div><br>
+
+  <div>
+    <%= form.submit class: "btn btn-sm btn-primary mt-2" %>
   </div>
 <% end %>

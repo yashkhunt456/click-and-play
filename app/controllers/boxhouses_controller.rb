@@ -32,6 +32,7 @@ class BoxhousesController < ApplicationController
   
   def update
     if @boxhouse.update(boxhouse_params)
+      manage_user_roles
       redirect_to @boxhouse, notice: "your Boxhouse is updated!"
     else
       render :edit, status: :unprocessable_entity
@@ -50,11 +51,9 @@ class BoxhousesController < ApplicationController
   end
 
   def manage_user_roles
+    current_user.remove_role(:player)
     return if current_user.has_role?(:boxhouse)
-    current_user.update(role: "boxhouse")
-    # current_user.remove_role(:player)
-    # current_user.add_role(:boxhouse)
-    
+    current_user.add_role(:boxhouse)
   end
 
   def boxhouse_params

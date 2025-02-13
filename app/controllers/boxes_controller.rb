@@ -28,14 +28,13 @@ class BoxesController < ApplicationController
 
   def update
     if @box.update(box_params)
-      redirect_to box_path(@box), notice: "Box updated successfully!"
+      redirect_to boxhouse_box_path(@box), notice: "Box updated successfully!"
     else
       render :edit, alert: "Failed to update box."
     end
   end
 
   def destroy
-    @boxhouse = @box.boxhouse
     @box.destroy
 
     redirect_to @boxhouse, notice: "Box deleted successfully!"
@@ -51,6 +50,6 @@ class BoxesController < ApplicationController
   end
 
   def box_params
-    params.require(:box).permit(:name, :box_house_id)
+    params.require(:box).permit(:name, :description, :box_house_id)
   end
 end

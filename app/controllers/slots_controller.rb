@@ -1,17 +1,26 @@
 class SlotsController < ApplicationController
-  before_action :set_slot, only: [:edit, :update, :destroy]
+  before_action :set_boxhouse
+  before_action :set_box
+  before_action :set_slot, only: [:show, :edit, :update, :destroy]
 
-  def new
+  def index
+    @slots = @box.slots.all
   end
 
-  def create 
-    @box = Box.find(params[:box_id])
-    @slot = @box.create(slot_params)
+  def show
 
+  end
+
+  def new
+    @slot = @box.slots.new
+  end
+
+  def create
+    @slot = @box.slots.new(slot_params)
     if @slot.save
-      redirect_to @box, notice: "Slot created successfully!"
+      redirect_to boxhouse_box_path(@boxhouse, @box), notice: "Slot created successfully."
     else
-      render :new, alert: "Failed to create Slot."
+      render :new, alert: "Failed to create slot."
     end
   end
 
@@ -19,27 +28,32 @@ class SlotsController < ApplicationController
   end
 
   def update
-    if @slot.update(box_params)
-      redirect_to box_path(@slot), notice: "Slot updated successfully!"
+    if @slot.update(slot_params)
+      redirect_to boxhouse_box_path(@boxhouse, @box), notice: "Slot updated successfully."
     else
-      render :edit, alert: "Failed to update Slot."
+      render :edit, alert: "Failed to update slot."
     end
   end
 
   def destroy
-    @box = @box.boxhouse
     @slot.destroy
-
-    redirect_to @box, notice: "Slot deleted successfully!"
+    redirect_to boxhouse_box_path(@boxhouse, @box), notice: "Slot was successfully deleted."
   end
 
   private
+  def set_boxhouse
+    @boxhouse = Boxhouse.find(params[:boxhouse_id])
+  end
+
+  def set_box
+    @box = Box.find(params[:box_id])
+  end
 
   def set_slot
-    @slot = Slot.find(params[:id])
+    @slot = @box.slots.find_by(id: params[:id])
   end
 
   def slot_params
-    params.require(:slot).permit(:start_time, :end_time, :status, :price :box_id)
+    params.require(:slot).permit(:slot_number, :start_time, :end_time, :price)
   end
 end

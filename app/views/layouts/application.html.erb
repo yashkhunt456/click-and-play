@@ -34,12 +34,13 @@
             <li>  
               <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "nav-link text-light" %>
             </li>
-            <li>
-              <%= link_to "+Boxhouse", new_boxhouse_path, class: "nav-link text-light" %>
-            </li>
             <% if current_user&.has_role?(:admin) %>
               <li>
                 <%= link_to "Admin dashboard", admin_root_path, class: "nav-link text-light" %>
+              </li>
+            <% else %>
+              <li>
+                <%= link_to "+Boxhouse", new_boxhouse_path, class: "nav-link text-light" %>
               </li>
             <% end %>
           <% else %>
@@ -54,7 +55,10 @@
       </div>
     </nav>
     <% if user_signed_in? %>
-      <div class="mr-4">Role : <%= current_user.roles.map(&:name).join(", ") %></div>
+      <div class="mr-4">Role : <%= current_user.roles.map(&:name).join(", ") %>, Name : <%= current_user.username %></div>
+      <%# if current_user&.has_role?(:player) %> 
+        <%# link_to 'My Bookings', bookings_path, class: "btn btn-sm btn-primary" %>
+      <%# end %>
     <% end %>
     <% if flash[:notice] %>
       <p class="container mt-4 notice text-success"><%= notice %></p>

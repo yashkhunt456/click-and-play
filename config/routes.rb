@@ -2,14 +2,23 @@ Rails.application.routes.draw do
  
   namespace :admin do
     root "dashboard#index"
+    resources :dashboard, only: [:index] do
+      member do
+        delete 'destroy_user/:id', to: 'dashboard#destroy', as: :destroy_user
+      end
+    end
     resources :users, only: [:index, :show, :destroy]
     resources :boxhouses, only: [:index, :show, :destroy]
   end
   root "boxhouses#index"
   devise_for :users, sign_out_via: [:get]
+  # resources :bookings, only: [:index, :show, :edit, :update, :destroy]
   resources :boxhouses do
-    resources :boxes, only: [:show, :new, :create, :edit, :update, :destroy, :index] do
-      resources :slots, only: [:new, :create, :edit, :update, :destroy, :index]
+    resources :boxes do
+      resources :slots, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      resources :bookings, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
+        resource :payment, only: [:new, :create]
+      end
     end
   end
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

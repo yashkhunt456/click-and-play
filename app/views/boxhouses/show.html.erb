@@ -5,8 +5,8 @@
 <p><strong>Timing : </strong> <%= @boxhouse.timing %></p>
 <p><strong>Address : </strong> <%= @boxhouse.address %></p>
 <p><strong>Boxes : </strong> <%= @boxhouse.boxes.map(&:name).join(", ") %></p>
-<% if current_user == @boxhouse.user %>
   <%= link_to "Boxes", boxhouse_boxes_path(@boxhouse), class: "btn btn-sm btn-primary" %>
+<% if current_user == @boxhouse.user %>
   <%= link_to "Edit boxhohuse", edit_boxhouse_path(@boxhouse), class: "btn btn-sm btn-primary" %>
   <%= button_to "Delete", boxhouse_path(@boxhouse), method: :delete, class: "btn btn-sm btn-danger mt-2" %>
 <% end %>

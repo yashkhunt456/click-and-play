@@ -10,25 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_10_054351) do
-  create_table "bookings", force: :cascade do |t|
-    t.string "status"
-    t.integer "total_price"
-    t.integer "user_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_bookings_on_user_id"
-  end
-
-  create_table "bookings_slots", id: false, force: :cascade do |t|
+ActiveRecord::Schema[8.0].define(version: 2025_02_12_114706) do
+  create_table "booking_slots", force: :cascade do |t|
     t.integer "booking_id", null: false
     t.integer "slot_id", null: false
-    t.index ["booking_id", "slot_id"], name: "index_bookings_slots_on_booking_id_and_slot_id", unique: true
-    t.index ["slot_id", "booking_id"], name: "index_bookings_slots_on_slot_id_and_booking_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_booking_slots_on_booking_id"
+    t.index ["slot_id"], name: "index_booking_slots_on_slot_id"
+  end
+
+  create_table "bookings", force: :cascade do |t|
+    t.string "status", default: "Pending", null: false
+    t.date "date", null: false
+    t.integer "total_price", default: 0, null: false
+    t.integer "user_id", null: false
+    t.integer "box_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["box_id"], name: "index_bookings_on_box_id"
+    t.index ["user_id"], name: "index_bookings_on_user_id"
   end
 
   create_table "boxes", force: :cascade do |t|
     t.string "name"
+    t.text "description"
     t.integer "boxhouse_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -47,6 +53,16 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_054351) do
     t.index ["user_id"], name: "index_boxhouses_on_user_id"
   end
 
+  create_table "payments", force: :cascade do |t|
+    t.integer "booking_id", null: false
+    t.string "stripe_payment_id", null: false
+    t.string "status", null: false
+    t.integer "amount", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_payments_on_booking_id"
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string "name"
     t.string "resource_type"
@@ -59,10 +75,11 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_054351) do
   end
 
   create_table "slots", force: :cascade do |t|
+    t.integer "slot_number"
     t.datetime "start_time"
     t.datetime "end_time"
     t.integer "price"
-    t.string "status"
+    t.string "status", default: "Available", null: false
     t.integer "box_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -90,8 +107,12 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_10_054351) do
     t.index ["user_id"], name: "index_users_roles_on_user_id"
   end
 
+  add_foreign_key "booking_slots", "bookings"
+  add_foreign_key "booking_slots", "slots"
+  add_foreign_key "bookings", "boxes"
   add_foreign_key "bookings", "users"
   add_foreign_key "boxes", "boxhouses"
   add_foreign_key "boxhouses", "users"
+  add_foreign_key "payments", "bookings"
   add_foreign_key "slots", "boxes"
 end

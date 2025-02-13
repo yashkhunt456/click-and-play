@@ -1,0 +1,22 @@
+<%= form_with(model: [@boxhouse, @box, @booking], local: true) do |form| %>
+  <div>
+    <%= form.label "Select Slot : " %>
+    <% @box.slots.each do |slot| %>
+      <div>
+        <%= check_box_tag "booking[slot_ids][]", slot.id, @booking.slot_ids.include?(slot.id) %>
+        <%= slot.slot_number %> - <%= slot.start_time.strftime("%I:%M %p") %> to <%= slot.end_time.strftime("%I:%M %p") %> | Price: <%= slot.price %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="mt-2 mb-2">
+    <%= form.label :date, "Date : " %>
+    <%= form.date_field :date %>
+  </div>
+
+  <div>
+    <%= form.submit class: "btn btn-sm btn-primary" %>
+  </div>
+<% end %>
+
+

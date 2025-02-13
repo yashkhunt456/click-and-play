@@ -1,2 +1,76 @@
-<h1>Box</h1>
-<p><strong>Name : </strong> <%= @box.name %></p>
+<h1><%= @box.name %></h1>
+<p></p> <%= @box.description %></p>
+<% if current_user.has_role?(:player) %>
+  <%= link_to 'My Bookings', boxhouse_box_bookings_path(@boxhouse, @box), class: "btn btn-sm btn-primary" %>
+  <%= link_to 'Create Booking', new_boxhouse_box_booking_path(@boxhouse, @box), class: 'btn btn-sm btn-primary' %>
+  <h2>Available Slots</h2>
+  <% if @box.slots.any? %>
+    <table class="table table-bordered table-hover mt-2" >
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">End Time</th>
+          <th scope="col">Price(₹)</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @box.slots.each do |slot| %>
+          <tr>
+            <td><%= slot.slot_number %></td>
+            <td><%= slot.start_time.strftime("%I:%M %p") %></td>
+            <td><%= slot.end_time.strftime("%I:%M %p") %></td>
+            <td><%= slot.price %></td>
+            <td><%= slot.status %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No slots available for this box.</p>
+  <% end %>
+
+<% else %>
+  <%= link_to 'View Bookings', boxhouse_box_bookings_path(@boxhouse, @box), class: 'btn btn-sm btn-primary' %>
+  <%= link_to 'Edit Box', edit_boxhouse_box_path(@box.boxhouse_id, @box), class: "btn btn-sm btn-primary" %>
+
+  <h2>Available Slots</h2>
+  <% if @box.slots.any? %>
+    <table class="table table-bordered table-hover mt-2" >
+      <thead>
+        <tr>
+          <th scope="col">Name</th>
+          <th scope="col">Start Time</th>
+          <th scope="col">End Time</th>
+          <th scope="col">Price(₹)</th>
+          <th scope="col">Status</th>
+          <th scope="col" colspan="2">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @box.slots.each do |slot| %>
+          <tr>
+            <td><%= slot.slot_number %></td>
+            <td><%= slot.start_time.strftime("%I:%M %p") %></td>
+            <td><%= slot.end_time.strftime("%I:%M %p") %></td>
+            <td><%= slot.price %></td>
+            <td><%= slot.status %></td>
+            <td>
+              <%= link_to 'Edit', edit_boxhouse_box_slot_path(@boxhouse, @box, slot), class: "btn btn-sm btn-primary" %>
+            </td>
+            <td>
+              <%= button_to "Delete", boxhouse_box_slot_path(@boxhouse, @box, slot), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure?" } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p>No slots available for this box.</p>
+  <% end %>
+
+  <%= link_to "New Slot", new_boxhouse_box_slot_path(@box.boxhouse_id, @box), class: "btn btn-sm btn-primary" %>
+
+<% end %>
+<%= link_to "<< Back to Boxes", boxhouse_boxes_path, class: "btn btn-sm btn-primary" %>
