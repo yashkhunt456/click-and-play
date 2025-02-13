@@ -1,2 +1,12 @@
-<h1>Boxhouse#show</h1>
-<p>Find me in app/views/boxhouse/show.html.erb</p>
+<h3>Boxhouse</h3>
+<p><strong>Name : </strong> <%= @boxhouse.name %></p>
+<p><strong>Phone  : </strong> <%= @boxhouse.phone %></p>
+<p><strong>Description : </strong> <%= @boxhouse.description %></p>
+<p><strong>Timing : </strong> <%= @boxhouse.timing %></p>
+<p><strong>Address : </strong> <%= @boxhouse.address %></p>
+<p><strong>Boxes : </strong> <%= @boxhouse.boxes.map(&:name).join(", ") %></p>
+  <%= link_to "Boxes", boxhouse_boxes_path(@boxhouse), class: "btn btn-sm btn-primary" %>
+<% if current_user == @boxhouse.user %>
+  <%= link_to "Edit boxhohuse", edit_boxhouse_path(@boxhouse), class: "btn btn-sm btn-primary" %>
+  <%= button_to "Delete", boxhouse_path(@boxhouse), method: :delete, class: "btn btn-sm btn-danger mt-2" %>
+<% end %>

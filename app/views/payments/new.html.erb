@@ -1,0 +1,25 @@
+<h4 class="mt-4">Make Payment for Booking <%= @boxhouse.name %> on date <%= @booking.date %></h4>
+
+<p>Amount to Pay: $<%= @booking.total_price %></p>
+
+<% if @booking.payment && @booking.payment.status == "succeeded" %>
+    <p><strong>Payment Already Completed</strong></p>
+<% else %>
+    <form action="<%= boxhouse_box_booking_payment_path(@boxhouse, @box, @booking) %>" method="post">
+        <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+
+        <script
+        src="https://checkout.stripe.com/checkout.js"
+        class="stripe-button"
+        data-key="<%= Rails.application.credentials.dig(:stripe, :publishable_key) %>"
+        data-amount="<%= @booking.total_price %>"
+        data-currency="usd"
+        data-name="Box Cricket Booking"
+        data-description="Payment for Booking #<%= @booking.id %>"
+        data-image="https://your-logo-url.com/logo.png"
+        data-locale="auto">
+        </script>
+    </form>
+<% end %>
+
+    

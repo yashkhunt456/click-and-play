@@ -1,2 +1,10 @@
 <h1>Book your Boxhouse</h1>
-<p>Find me in app/views/boxhouse/index.html.erb</p>
+<div>
+  <% @boxhouses.each do |boxhouse| %>
+    <Li>
+      <%= boxhouse.name %>
+      <%= link_to "Show", boxhouse_path(boxhouse) %>
+    </Li>
+  <% end %>
+</div>
+

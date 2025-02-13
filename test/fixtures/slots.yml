@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start_time: 2025-02-10 10:12:16
+  end_time: 2025-02-10 10:12:16
+  price: 1
+  status: MyString
+  box: one
+
+two:
+  start_time: 2025-02-10 10:12:16
+  end_time: 2025-02-10 10:12:16
+  price: 1
+  status: MyString
+  box: two

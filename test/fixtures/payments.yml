@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  booking: one
+  stripe_payment_id: MyString
+  status: MyString
+  amount: 1
+
+two:
+  booking: two
+  stripe_payment_id: MyString
+  status: MyString
+  amount: 1
