@@ -24,9 +24,71 @@
   </head>
 
   <body>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <div class="container-fluid">
+        <%= link_to root_path, class: "navbar-brand d-flex align-items-center text-light" do %>
+          <%= image_tag "logo.png", alt: "Brand Logo", class: "me-2", height: "100" %>
+      <% end %>
+    
+        <!-- Buttons that should always be visible (Log In, Sign Up, Log Out, +Boxhouse) -->
+        <div class="d-flex gap-2 order-sm-last">
+  <!-- Home link with SVG -->
+  <%= link_to root_path, class: "navbar-brand text-light" do %>
+    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-house" viewBox="0 0 16 16">
+      <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L2 8.207V13.5A1.5 1.5 0 0 0 3.5 15h9a1.5 1.5 0 0 0 1.5-1.5V8.207l.646.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293zM13 7.207V13.5a.5.5 0 0 1-.5.5h-9a.5.5 0 0 1-.5-.5V7.207l5-5z"/>
+    </svg>
+    Home
+  <% end %>
+
+  <!-- Conditional links based on user authentication -->
+  <% if user_signed_in? %>
+    <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn btn-lg btn-danger" %>
+    
+    <!-- Admin link -->
+    <% if current_user&.has_role?(:admin) %>
+      <%= link_to "Admin Dashboard", admin_root_path, class: "btn btn-lg btn-primary" %>
+    <% end %>
+  <% else %>
+    <%= link_to "Log In", new_user_session_path, class: "btn btn-lg btn-success" %>
+    <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-lg btn-success" %>
+  <% end %>
+</div>
+    
+        <!-- Navbar Toggler for Mobile -->
+        <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+     -->
+        <!-- Collapsible Navbar (Navigation Links) -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+     
+            <% if user_signed_in? && current_user&.has_role?(:admin) %>
+              <li class="nav-item">
+                <%= link_to "Admin Dashboard", admin_root_path, class: "nav-link text-light d-sm-none" %>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+  
+    <% if user_signed_in? %>
+      <div class="mr-4">Role : <%= current_user.roles.map(&:name).join(", ") %>, Name : <%= current_user.username %></div>
+    <% end %>
+  
+    <% if flash[:notice] %>
+      <p class="container mt-4 notice text-success"><%= notice %></p>
+    <% end %>
+  
+    <% if flash[:alert] %>
+      <p class="container mt-4 alert text-danger"><%= alert %></p>
+    <% end %>
+
+    
     <div class="container-fluid">
       <div class="container mb-4">
-        <div><%= link_to "Home", root_path %></div>
         <h1>Admin Dashboard</h1>
 
         <h2>Users</h2>

@@ -3,6 +3,7 @@
   <table class="table table-bordered table-hover mt-2">
     <thead class="thead-dark">
       <tr>
+        <th scope="col">Boxhouse</th>
         <th scope="col">Box</th>
         <th scope="col">Date</th>
         <th scope="col">Start Time</th>
@@ -13,6 +14,7 @@
     <tbody>
       <% @bookings.each do |booking| %>
         <tr>
+          <td><%= booking.box.boxhouse.name %></td>
           <td><%= booking.box.name %></td>
           <td><%= booking.date %></td>
           <td><%= booking.slots.first.start_time.strftime("%I:%M %p") %></td>
@@ -20,9 +22,11 @@
           <td>
             <%= link_to "Show", boxhouse_box_booking_path(@boxhouse, @box, booking), class: "btn btn-sm btn-info" %>
           </td>
-          <td>
-            <%= link_to "Edit", edit_boxhouse_box_booking_path(@boxhouse, @box, booking), class: "btn btn-sm btn-warning" %>
-          </td>
+          <% if booking.status != "Confirmed" %>
+            <td>
+              <%= link_to "Edit", edit_boxhouse_box_booking_path(@boxhouse, @box, booking), class: "btn btn-sm btn-warning" %>
+            </td>
+          <%  end %>
           <td>
             <%= button_to "Cancel", boxhouse_box_booking_path(@boxhouse, @box, booking), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure?" } %>
           </td>

@@ -1,0 +1,7 @@
+<%= search_form_for @q, url: boxhouse, method: :get, html: { class: "d-flex flex-wrap gap-2 align-items-center" } do |f| %>
+  <div class="input-group">
+    <%= f.search_field :address_cont, class: "form-control border-dark text-dark fw-bold", placeholder: "Search by address..." %>
+    <button type="submit" class="btn btn-primary mr-4">Search</button>
+  </div>
+
+<% end %>
