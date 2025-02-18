@@ -91,30 +91,8 @@
       <div class="container mb-4">
         <h1>Admin Dashboard</h1>
 
-        <h2>Users</h2>
-        <table class="table table-bordered table-hover mt-2">
-          <thead>
-              <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Role</th>
-                <th scope="col">Action</th>
-              </tr>
-          </thead>
-          <tbody>
-            <% @users.each do |user| %>
-                <tr>
-                  <td><%= user.id %></td>
-                  <td><%= user.username %></td>
-                  <td><%= user.email %></td>
-                  <td><%= user.roles.pluck(:name).join(", ") %></td>
-                  <td><%= button_to "Delete", destroy_user_admin_dashboard_path(user), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure?" } %>
-                  </td>
-                </tr>
-            <% end %>
-          </tbody>
-        </table>
+        <%= render "users" %> 
+        <%= render "boxhouses" %>
       </div>
     </div>
   </body>

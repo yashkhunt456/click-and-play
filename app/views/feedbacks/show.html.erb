@@ -1,0 +1,54 @@
+<div class="container mt-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        <h2 class="mb-0">Feedback Details</h2>
+      </div>
+      <div class="card-body">
+        <p><strong>Boxhouse:</strong> <%= @feedback.booking.box.boxhouse.name %></p>
+  
+        <p><strong>Rating:</strong></p>
+        <div class="rating">
+          <% @feedback.rating.times do %>
+            <span class="star filled">★</span>
+          <% end %>
+          <% (5 - @feedback.rating).times do %>
+            <span class="star empty">☆</span>
+          <% end %>
+        </div>
+  
+        <p><strong>Comment:</strong> <%= @feedback.comment %></p>
+  
+        <div class="d-flex gap-2">
+          <%= link_to 'Back to Boxhouse', boxhouse_path(@boxhouse), class: "btn btn-secondary" %>
+          <% if user_signed_in? %>
+            <% if (feedback_belongs_to_user?(@feedback) || current_user.has_role?(:admin)) && !current_user.has_role?(:boxhouse) %>
+              <%= link_to 'Edit', edit_boxhouse_box_booking_feedback_path(@boxhouse, @box, @booking, @feedback), class: "btn btn-warning" %>
+              <%= button_to 'Delete', boxhouse_box_booking_feedback_path(@boxhouse, @box, @booking, @feedback), 
+                  method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Inline CSS for rating stars -->
+  <style>
+    .rating {
+      font-size: 1.5rem;
+      margin-top: 5px;
+    }
+  
+    .star {
+      margin-right: 2px;
+    }
+  
+    .star.filled {
+      color: rgb(255, 208, 0); /* Filled stars are golden */
+    }
+  
+    .star.empty {
+      color: lightgray; /* Empty stars are light gray */
+    }
+  </style>
+  

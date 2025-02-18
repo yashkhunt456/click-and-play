@@ -42,6 +42,7 @@
   <%= link_to "Make Payment", new_boxhouse_box_booking_payment_path(@boxhouse, @box, @booking), class: "btn btn-sm btn-primary" %>
 <% end %>
 
+<%= link_to 'Add Feedback', new_boxhouse_box_booking_feedback_path(@boxhouse, @box, @booking) %>
 
 <%= link_to "<< Back To Bookings", boxhouse_box_bookings_path(@boxhouse, @box), class: "btn btn-sm btn-primary" %>
 

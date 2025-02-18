@@ -1,8 +1,11 @@
 class ApplicationController < ActionController::Base
-  # Only allow modern browsers supporting webp images, web push, badges, import maps, CSS nesting, and CSS :has.
   allow_browser versions: :modern
-  # before_action :authenticate_user!
   before_action :configure_permitted_parameters, if: :devise_controller?
+
+  include Pundit  # Include Pundit for authorization
+
+  # Handle unauthorized access
+  rescue_from Pundit::NotAuthorizedError, with: :user_not_authorized
 
   protected
 
@@ -17,5 +20,5 @@ class ApplicationController < ActionController::Base
     flash[:alert] = "You are not authorized to perform this action."
     redirect_to(request.referer || root_path)
   end
-  
 end
+

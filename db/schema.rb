@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_02_13_113526) do
+ActiveRecord::Schema[8.0].define(version: 2025_02_17_085237) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -81,6 +81,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_113526) do
     t.index ["user_id"], name: "index_boxhouses_on_user_id"
   end
 
+  create_table "feedbacks", force: :cascade do |t|
+    t.integer "booking_id", null: false
+    t.integer "rating"
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["booking_id"], name: "index_feedbacks_on_booking_id"
+  end
+
   create_table "payments", force: :cascade do |t|
     t.integer "booking_id", null: false
     t.string "stripe_payment_id", null: false
@@ -143,6 +152,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_02_13_113526) do
   add_foreign_key "bookings", "users"
   add_foreign_key "boxes", "boxhouses"
   add_foreign_key "boxhouses", "users"
+  add_foreign_key "feedbacks", "bookings"
   add_foreign_key "payments", "bookings"
   add_foreign_key "slots", "boxes"
 end

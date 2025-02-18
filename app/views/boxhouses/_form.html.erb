@@ -42,12 +42,15 @@
         <div class="text-danger"><%= message %></div>
       <% end %>
     </div>
-
+    
     <div class="col-md-6 mb-3">
-      <%= form.hidden_field :image, value: @boxhouse.image.signed_id if @boxhouse.image.attached? %>
+      <% if @boxhouse.image.attached? %>
+        <%= form.hidden_field :image, value: @boxhouse.image.signed_id if @boxhouse.image.attached? %>
+      <% end %>
       <%= form.label :image, "Image:", class: "form-label" %>
       <%= form.file_field :image, class: "form-control form-control-sm" %>
     </div>
+    
 
     <div class="col-md-12 mb-3">
       <%= form.submit "Submit", class: "btn btn-primary btn-lg w-100 hover-change" %>
