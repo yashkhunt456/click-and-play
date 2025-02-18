@@ -66,10 +66,19 @@ gem "devise", "~> 4.9"
 
 gem "rolify"
 
+gem "kaminari"
+
+gem "ransack"
+
 gem 'stripe'
+
+#for active storage variants
+gem 'image_processing', '~> 1.2'
+gem 'ruby-vips'
+gem 'pry'
 
 
 
 gem 'bootstrap', '~> 5.3.3'
-gem 'sassc-rails', '~> 2.1'
+gem 'sass-rails', '>= 6'
 gem 'jquery-rails'

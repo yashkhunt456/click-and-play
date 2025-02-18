@@ -1,6 +1,5 @@
 class SlotsController < ApplicationController
-  before_action :set_boxhouse
-  before_action :set_box
+  before_action :set_boxhouse_box, only: [:new, :create, :show, :edit, :update, :destroy]
   before_action :set_slot, only: [:show, :edit, :update, :destroy]
 
   def index
@@ -41,11 +40,8 @@ class SlotsController < ApplicationController
   end
 
   private
-  def set_boxhouse
+  def set_boxhouse_box
     @boxhouse = Boxhouse.find(params[:boxhouse_id])
-  end
-
-  def set_box
     @box = Box.find(params[:box_id])
   end
 

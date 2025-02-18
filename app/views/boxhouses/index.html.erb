@@ -1,10 +1,20 @@
-<h1>Book your Boxhouse</h1>
-<div>
-  <% @boxhouses.each do |boxhouse| %>
-    <Li>
-      <%= boxhouse.name %>
-      <%= link_to "Show", boxhouse_path(boxhouse) %>
-    </Li>
-  <% end %>
+<h2 class="text-center" style="font-family: 'Roboto', sans-serif;">Book your Boxhouse</h2>
+<div class="container mb-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8 col-sm-12">
+      <%= render "search_form", boxhouse: @boxhouse %>
+    </div>
+  </div>
 </div>
 
+<div class="container">
+  <div id="articles" class="row">
+    <% @boxhouses.each do |boxhouse| %>
+      <%= render partial: "boxhouse_card", locals: { boxhouse: boxhouse } %>
+    <% end %>
+  </div>
+</div>
+<div class="container mb-4">
+  <%= paginate @boxhouses %><br>
+  <%= page_entries_info @boxhouses %>
+</div>

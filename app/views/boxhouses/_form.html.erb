@@ -1,46 +1,125 @@
-<%= form_with model: @boxhouse do |form| %>
-  <div>
-    <%= form.label :name, "Name : " %>
-    <%= form.text_field :name %>
-    <% boxhouse.errors.full_messages_for(:name).each do |message| %>
-        <div><%= message %></div>
-    <% end %>
-  </div><br>
+<%= form_with model: @boxhouse, html: { class: "container mt-4 form-container" } do |form| %>
+<h1 class="text-center" style="font-family: 'Roboto', sans-serif;">Register your Boxhouse</h1>
+  <div class="row">
+    <!-- Left Side Fields -->
+    <div class="col-md-6 mb-3">
+      <%= form.label :name, "Name:", class: "form-label" %>
+      <%= form.text_field :name, class: "form-control form-control-sm" %>
+      <% boxhouse.errors.full_messages_for(:name).each do |message| %>
+        <div class="text-danger"><%= message %></div>
+      <% end %>
+    </div>
 
-  <div>
-    <%= form.label :phone, "Phone : " %>
-    <%= form.text_field :phone %>
-    <% boxhouse.errors.full_messages_for(:phone).each do |message| %>
-        <div><%= message %></div>
-    <% end %>
-  </div><br>
+    <div class="col-md-6 mb-3">
+      <%= form.label :phone, "Phone:", class: "form-label" %>
+      <%= form.text_field :phone, class: "form-control form-control-sm" %>
+      <% boxhouse.errors.full_messages_for(:phone).each do |message| %>
+        <div class="text-danger"><%= message %></div>
+      <% end %>
+    </div>
 
-  <div>
-    <%= form.label :description, "Description : " %>
-    <%= form.text_area :description %>
-    <% boxhouse.errors.full_messages_for(:description).each do |message| %>
-        <div><%= message %></div>
-    <% end %>
-  </div><br>
+    <div class="col-md-6 mb-3">
+      <%= form.label :description, "Description:", class: "form-label" %>
+      <%= form.text_area :description, class: "form-control form-control-sm" %>
+      <% boxhouse.errors.full_messages_for(:description).each do |message| %>
+        <div class="text-danger"><%= message %></div>
+      <% end %>
+    </div>
 
-  <div>
-    <%= form.label :timing, "Time : " %>
-    <%= form.text_field :timing, placeholder: "09:00 AM - 11:30 PM" %>
-    <% boxhouse.errors.full_messages_for(:timing).each do |message| %>
-        <div><%= message %></div>
-    <% end %>
-  </div><br>
+    <!-- Right Side Fields -->
+    <div class="col-md-6 mb-3">
+      <%= form.label :timing, "Time:", class: "form-label" %>
+      <%= form.text_field :timing, placeholder: "09:00 AM - 11:30 PM", class: "form-control form-control-sm" %>
+      <% boxhouse.errors.full_messages_for(:timing).each do |message| %>
+        <div class="text-danger"><%= message %></div>
+      <% end %>
+    </div>
 
-  <div>
-    <%= form.label :address, "Address : " %>
-    <%= form.text_field :address %>
-    <% boxhouse.errors.full_messages_for(:address).each do |message| %>
-        <div><%= message %></div>
-    <% end %>
-  </div><br>
+    <div class="col-md-6 mb-3">
+      <%= form.label :address, "Address:", class: "form-label" %>
+      <%= form.text_field :address, class: "form-control form-control-sm" %>
+      <% boxhouse.errors.full_messages_for(:address).each do |message| %>
+        <div class="text-danger"><%= message %></div>
+      <% end %>
+    </div>
 
-  <div>
-    <%= form.submit class: "btn btn-sm btn-primary mt-2" %>
+    <div class="col-md-6 mb-3">
+      <%= form.hidden_field :image, value: @boxhouse.image.signed_id if @boxhouse.image.attached? %>
+      <%= form.label :image, "Image:", class: "form-label" %>
+      <%= form.file_field :image, class: "form-control form-control-sm" %>
+    </div>
+
+    <div class="col-md-12 mb-3">
+      <%= form.submit "Submit", class: "btn btn-primary btn-lg w-100 hover-change" %>
+    </div>
   </div>
-
 <% end %>
+
+<style>
+  .form-container {
+    background: rgba(255, 255, 255, 0.1); /* Semi-transparent white background */
+    border-radius: 15px; /* Rounded corners */
+    padding: 30px; /* Add padding */
+    backdrop-filter: blur(10px); /* Frosted glass blur effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    max-width: 900px; /* Max width for the form box */
+    margin: 0 auto; /* Center the form */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Light border with transparency */
+  }
+
+  .form-control-sm {
+    max-width: 400px;
+    font-size: 1.2rem; /* Larger font size */
+  }
+
+  .form-label {
+    font-size: 1.2rem; /* Larger font size for labels */
+  }
+
+  .form-control-sm:hover {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+
+  .btn-lg {
+    font-size: 1.3rem; /* Larger submit button */
+  }
+
+  .btn-sm:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+  }
+
+  .btn-sm:focus {
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(38, 143, 255, 0.5);
+  }
+
+  .hover-change:hover {
+    background-color: #28a745;
+    border-color: #218838;
+  }
+
+  .btn-primary {
+    transition: background-color 0.3s, border-color 0.3s;
+  }
+
+  .text-danger {
+    font-size: 1.1rem; /* Larger font size for error messages */
+  }
+
+  @media (max-width: 768px) {
+    .col-md-6 {
+      max-width: 100%; /* Make all fields stack in a single column on small screens */
+      display: block;
+    }
+
+    .form-container {
+      padding: 15px; /* Less padding on small screens */
+    }
+
+    .btn-lg {
+      font-size: 1.1rem; /* Slightly smaller button on small screens */
+    }
+  }
+</style>

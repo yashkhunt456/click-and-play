@@ -1,10 +1,12 @@
-<div class="col-md-4 mb-4">
-  <div class="card h-100">
+<div class="col-lg-4 mb-4">
+  <div class="card h-70">
     <div class="card-body bg-light">
-      <h4><%= boxhouse.name %></h4>
-      <p class="card-text"><%= boxhouse.description.truncate(120, omission: '...') %></p>
-      <%= link_to "View", boxhouse, class: "btn btn-sm btn-outline-primary float-end" %>
+      <% if boxhouse.image.attached? %>
+        <%= image_tag boxhouse.image.variant(:thumb), class: "card-img-top shadow rounded-bottom mb-4" %>
+      <% end %>
+      <h4><%= link_to boxhouse.name, boxhouse, class: "btn btn-sm btn-outline-primary" %></h4>
+      <footer class="blockquote-footer float-end"><%= boxhouse.timing %></footer>
+      <p class="card-text"><%= boxhouse.address.truncate(40, omission: '...') %></p>
     </div>
   </div>
 </div>
-    

@@ -8,5 +8,8 @@ class Booking < ApplicationRecord
   validates :status, inclusion: { in: %w[Pending Confirmed Canceled] }
   validates :date, presence: true, comparison: { greater_than_or_equal_to: Date.today }
 
+  def confirm_booking
+    update(status: 'Confirmed') if payment&.status == 'succeeded'
+  end
 
 end

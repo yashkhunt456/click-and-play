@@ -1,4 +1,5 @@
 class BookingsController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_boxhouse_and_box, only: [:index, :new, :create, :edit, :update, :show, :destroy]
   before_action :set_booking, only: [:show, :edit, :update, :destroy]
 
@@ -33,11 +34,16 @@ class BookingsController < ApplicationController
   end
 
   def update
-    if @booking.update(booking_params)
-      @booking.update(total_price: @booking.slots.sum(:price))
-      redirect_to [@boxhouse, @box, @booking], notice: "Booking was successfully updated."
+    if @booking.status == "Confirmed"
+      flash[:alert] = "You cannot update a confirmed booking."
+      redirect_to [@boxhouse, @box, @booking]
     else
-      render :edit
+      if @booking.update(booking_params)
+        @booking.update(total_price: @booking.slots.sum(:price))
+        redirect_to [@boxhouse, @box, @booking], notice: "Booking was successfully updated."
+      else
+        render :edit
+      end
     end
   end
 
@@ -63,7 +69,42 @@ class BookingsController < ApplicationController
 
   
 
-
+  # <h5 class="mt-4">Bookings for <%= @box.name %></h5>
+  # <% if @bookings.any? %>
+  #   <table class="table table-bordered table-hover mt-2">
+  #     <thead class="thead-dark">
+  #       <tr>
+  #         <th scope="col">Box</th>
+  #         <th scope="col">Date</th>
+  #         <th scope="col">Start Time</th>
+  #         <th scope="col">Status</th>
+  #         <th scope="col" colspan="3">Actions</th>
+  #       </tr>
+  #     </thead>
+  #     <tbody>
+  #       <% @bookings.each do |booking| %>
+  #         <tr>
+  #           <td><%= booking.box.name %></td>
+  #           <td><%= booking.date %></td>
+  #           <td><%= booking.slots.first.start_time.strftime("%I:%M %p") %></td>
+  #           <td><%= booking.status %></td>
+  #           <td>
+  #             <%= link_to "Show", boxhouse_box_booking_path(@boxhouse, @box, booking), class: "btn btn-sm btn-info" %>
+  #           </td>
+  #           <td>
+  #             <%= link_to "Edit", edit_boxhouse_box_booking_path(@boxhouse, @box, booking), class: "btn btn-sm btn-warning" %>
+  #           </td>
+  #           <td>
+  #             <%= button_to "Cancel", boxhouse_box_booking_path(@boxhouse, @box, booking), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure?" } %>
+  #           </td>
+  #         </tr>
+  #       <% end %>
+  #     </tbody>
+  #   </table>
+  # <% else %>
+  #   <p class="text-center mt-3">No bookings have been made for this box yet.</p>
+  # <% end %>
+  # <%= link_to "<< Back", boxhouse_box_path(@boxhouse, @box), class: "btn btn-sm btn-primary" %>
 
 
 

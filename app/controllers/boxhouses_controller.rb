@@ -1,12 +1,15 @@
 class BoxhousesController < ApplicationController
   before_action :find_boxhouse, only: %i[show edit update destroy]
+  after_action :manage_user_roles_after_destroy, only: :destroy
 
   
   def index
     if user_signed_in? && current_user.has_role?(:boxhouse)
-      @boxhouses = current_user.boxhouses
+      @q = current_user.boxhouses.ransack(params[:q])
+      @boxhouses = @q.result.page(params[:page]).per(6)
     else
-      @boxhouses = Boxhouse.all
+      @q = Boxhouse.ransack(params[:q])
+      @boxhouses = @q.result.page(params[:page]).per(6)
     end
   end
 
@@ -56,7 +59,14 @@ class BoxhousesController < ApplicationController
     current_user.add_role(:boxhouse)
   end
 
+  def manage_user_roles_after_destroy
+    if current_user.boxhouses.empty?
+      current_user.remove_role(:boxhouse)
+      current_user.add_role(:player)
+    end
+  end
+
   def boxhouse_params
-    params.expect(boxhouse: [ :name, :phone, :description, :timing, :address ])
+    params.expect(boxhouse: [ :name, :phone, :description, :timing, :address, :image ])
   end
 end

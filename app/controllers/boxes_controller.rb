@@ -1,4 +1,5 @@
 class BoxesController < ApplicationController
+  before_action :authenticate_user!
   before_action :set_box, only: [:show, :edit, :update, :destroy]
   before_action :set_boxhouse
 
@@ -28,7 +29,7 @@ class BoxesController < ApplicationController
 
   def update
     if @box.update(box_params)
-      redirect_to boxhouse_box_path(@box), notice: "Box updated successfully!"
+      redirect_to boxhouse_box_path(@boxhouse, @box), notice: "Box updated successfully!"
     else
       render :edit, alert: "Failed to update box."
     end
