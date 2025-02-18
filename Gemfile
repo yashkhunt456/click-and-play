@@ -82,3 +82,4 @@ gem 'pry'
 gem 'bootstrap', '~> 5.3.3'
 gem 'sass-rails', '>= 6'
 gem 'jquery-rails'
+gem "pundit", "~> 2.4"

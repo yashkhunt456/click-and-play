@@ -1,13 +1,16 @@
 <h2>Available Slots</h2>
+
 <% if @box.slots.any? %>
-  <table class="table table-bordered table-hover mt-2" >
+  <table class="table table-bordered table-hover mt-2">
     <thead>
       <tr>
         <th scope="col">Name</th>
         <th scope="col">Start Time</th>
         <th scope="col">End Time</th>
         <th scope="col">Price</th>
-        <th scope="col" colspan="3">Actions</th>
+        <% if policy(Slot).update? || policy(Slot).destroy? %>
+          <th scope="col" colspan="2">Actions</th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -17,12 +20,18 @@
           <td><%= slot.start_time.strftime("%I:%M %p") %></td>
           <td><%= slot.end_time.strftime("%I:%M %p") %></td>
           <td><%= slot.price %></td>
-          <td>
-            <%= link_to 'Edit', edit_boxhouse_box_slot_path(@boxhouse, @box, slot) %>
-          </td>
-          <td>
-            <%= button_to "Delete", boxhouse_box_slot_path(@boxhouse, @box, slot), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure?" } %>
-          </td>
+
+          <% if policy(slot).update? %>
+            <td>
+              <%= link_to 'Edit', edit_boxhouse_box_slot_path(@boxhouse, @box, slot), class: "btn btn-sm btn-warning" %>
+            </td>
+          <% end %>
+
+          <% if policy(slot).destroy? %>
+            <td>
+              <%= button_to "Delete", boxhouse_box_slot_path(@boxhouse, @box, slot), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure?" } %>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
@@ -31,6 +40,8 @@
   <p>No slots available for this box.</p>
 <% end %>
 
-<%= link_to "New Slot", new_boxhouse_box_slot_path(@box.boxhouse_id, @box), class: "btn btn-sm btn-primary" %>
+<% if policy(Slot).create? %>
+  <%= link_to "New Slot", new_boxhouse_box_slot_path(@box.boxhouse_id, @box), class: "btn btn-sm btn-primary" %>
+<% end %>
 
-<%= link_to "Back to Boxes", boxhouse_boxes_path %>
+<%= link_to "Back to Boxes", boxhouse_boxes_path, class: "btn btn-sm btn-secondary" %>

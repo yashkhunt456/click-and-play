@@ -6,6 +6,7 @@
 
     <!-- Boxhouse Information -->
     <p><strong>Name :</strong> <%= @boxhouse.name %></p>
+    <p><strong>Owner :</strong> <%= @boxhouse.user.username %></p>
     <p><strong>Phone :</strong> <%= @boxhouse.phone %></p>
     <p><strong>Description :</strong> <%= @boxhouse.description %></p>
     <p><strong>Timing :</strong> <%= @boxhouse.timing %></p>
@@ -23,41 +24,38 @@
 
     <!-- Action Buttons -->
     <div class="d-flex justify-content-between mt-4">
-      <%= link_to "View Boxes", boxhouse_boxes_path(@boxhouse), class: "btn custom-btn" %>
-
-      <% if current_user == @boxhouse.user %>
-        <div>
-          <%= link_to "Edit", edit_boxhouse_path(@boxhouse), class: "btn custom-btn-warning me-2" %>
-          <%= button_to "Delete", boxhouse_path(@boxhouse), method: :delete, class: "btn custom-btn-danger", data: { confirm: "Are you sure?" } %>
-        </div>
+      <%= link_to "View Boxes", boxhouse_boxes_path(@boxhouse), class: "btn btn-lg custom-btn" %>
+    
+      <% if policy(@boxhouse).edit? %> <!-- Authorization check for edit -->
+        <%= link_to "Edit", edit_boxhouse_path(@boxhouse), class: "btn btn-lg custom-btn-warning me-2" %>
       <% end %>
+    
+      <% if policy(@boxhouse).destroy? %> <!-- Authorization check for destroy -->
+        <%= button_to "Delete", boxhouse_path(@boxhouse), method: :delete, class: "btn btn-lg custom-btn-danger", data: { confirm: "Are you sure?" } %>
+      <% end %>
+      
     </div>
   </div>
 </div>
+
+<div class="mt-4 mb-4"><%= render 'feedbacks/index', feedbacks: @feedbacks, boxhouse: @boxhouse %></div>
 
 <!-- Custom CSS Styling -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Pacifico&display=swap');
 
   /* Title with Gradient & Custom Font */
-  .boxhouse-title {
-    font-family: 'Pacifico', cursive;
-    font-size: 2.5rem;
-    background: linear-gradient(135deg, #6a11cb, #2575fc);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
 
   /* Divider Styling */
   .custom-divider {
-    border-top: 3px solid #6a11cb;
-    width: 50%;
+    border-top: 3px solid #ff8800;
+    width: 100%;
     margin: 0 auto 20px;
   }
 
   /* Button Custom Effects */
   .custom-btn {
-    background: linear-gradient(90deg, #4e54c8, #8f94fb);
+    background: linear-gradient(90deg, #003cff, #22b9ff);
     color: white;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
   }

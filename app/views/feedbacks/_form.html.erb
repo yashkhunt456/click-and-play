@@ -1,0 +1,23 @@
+<h2 class="text-center my-4">Submit Feedback</h2>
+
+<%= form_with(model: [@boxhouse, @box, @booking, @feedback], local: true, class: "container") do |form| %>
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-lg-4">
+      
+      <div class="mb-3">
+        <%= form.label :rating, class: "form-label" %>
+        <%= form.number_field :rating, in: 1..5, step: 1, required: true, class: "form-control border-primary" %>
+      </div>
+
+      <div class="mb-3">
+        <%= form.label :comment, class: "form-label" %>
+        <%= form.text_area :comment, rows: 4, required: true, class: "form-control border-primary" %>
+      </div>
+
+      <div class="actions text-center">
+        <%= form.submit "Submit Feedback", class: "btn btn-success w-100 hover-shadow mb-3" %>
+      </div>
+
+    </div>
+  </div>
+<% end %>

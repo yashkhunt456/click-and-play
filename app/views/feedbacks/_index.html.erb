@@ -1,0 +1,64 @@
+<% if feedbacks.any? %>
+  <h1 class="mb-4">Feedbacks</h1>
+  
+  <div class="list-group">
+    <% feedbacks.each do |feedback| %>
+      <div class="list-group-item p-4 shadow-sm mb-3 border rounded">
+        <h5 class="mb-2">
+          Feedback from <strong><%= feedback.booking.user.username %></strong>
+        </h5>
+
+        <!-- Display Rating as Stars -->
+        <div class="rating mb-2">
+          <% feedback.rating.times do %>
+            <span class="star filled">★</span>
+          <% end %>
+          <% (5 - feedback.rating).times do %>
+            <span class="star empty">☆</span>
+          <% end %>
+        </div>
+
+        <p class="text-muted"><%= feedback.comment %></p>
+
+        <div class="mt-3">
+          <%= link_to 'Show', 
+              boxhouse_box_booking_feedback_path(feedback.booking.box.boxhouse, feedback.booking.box, feedback.booking, feedback),
+              class: "btn btn-primary btn-sm" %>
+          <% if user_signed_in? %>
+            <% if feedback_belongs_to_user?(feedback) && !current_user.has_role?(:boxhouse) %>
+              <%= link_to 'Edit', 
+                  edit_boxhouse_box_booking_feedback_path(feedback.booking.box.boxhouse, feedback.booking.box, feedback.booking, feedback),
+                  class: "btn btn-warning btn-sm" %>
+
+              <%= link_to 'Delete', 
+                  boxhouse_box_booking_feedback_path(feedback.booking.box.boxhouse, feedback.booking.box, feedback.booking, feedback),
+                  method: :delete, 
+                  data: { confirm: 'Are you sure?' },
+                  class: "btn btn-danger btn-sm" %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <p class="text-center text-muted">No feedback available yet.</p>
+<% end %>
+
+<style>
+  .rating {
+    font-size: 1.5rem;
+  }
+
+  .star {
+    margin-right: 2px;
+  }
+
+  .star.filled {
+    color: gold; /* Filled stars are golden */
+  }
+
+  .star.empty {
+    color: lightgray; /* Empty stars are light gray */
+  }
+</style>

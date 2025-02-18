@@ -5,7 +5,7 @@
         <%= image_tag boxhouse.image.variant(:thumb), class: "card-img-top shadow rounded-bottom mb-4" %>
       <% end %>
       <h4><%= link_to boxhouse.name, boxhouse, class: "btn btn-sm btn-outline-primary" %></h4>
-      <footer class="blockquote-footer float-end"><%= boxhouse.timing %></footer>
+      <footer class="blockquote-footer float-end "><%= boxhouse.timing %></footer>
       <p class="card-text"><%= boxhouse.address.truncate(40, omission: '...') %></p>
     </div>
   </div>

@@ -1,10 +1,14 @@
 Rails.application.routes.draw do
+  get "feedbacks/index"
+  get "feedbacks/new"
+  get "feedbacks/edit"
  
   namespace :admin do
     root "dashboard#index"
     resources :dashboard, only: [:index] do
       member do
         delete 'destroy_user/:id', to: 'dashboard#destroy', as: :destroy_user
+        delete 'destroy_boxhouse/:id', to: 'dashboard#destroy', as: :destroy_boxhouse
       end
     end
     resources :users, only: [:index, :show, :destroy]
@@ -18,6 +22,7 @@ Rails.application.routes.draw do
       resources :slots, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       resources :bookings, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         resource :payment, only: [:new, :create]
+        resources :feedbacks, only: [:index, :show, :new, :create, :edit, :update, :destroy]
       end
     end
   end

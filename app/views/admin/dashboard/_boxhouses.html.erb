@@ -1,0 +1,28 @@
+<h2>Boxhouses</h2>
+        <table class="table table-bordered table-hover mt-2">
+          <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Owner</th>
+                <th scope="col">Boxes</th>
+                <th scope="col">Action</th>
+              </tr>
+          </thead>
+          <tbody>
+            <% @boxhouses.each do |boxhouse| %>
+                <tr>
+                  <td><%= boxhouse.id %></td>
+                  <td><%= boxhouse.name %></td>
+                  <td><%= boxhouse.user.email %></td>
+                  <td><%= boxhouse.phone %></td>
+                  <td><%= boxhouse.user.username %></td>
+                  <td><%= boxhouse.boxes.count %></td>
+                  <td><%= button_to "Delete", destroy_boxhouse_admin_dashboard_path(boxhouse), method: :delete, class: "btn btn-sm btn-danger", data: { confirm: "Are you sure?" } %>
+                  </td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
